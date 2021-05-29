@@ -5,84 +5,82 @@ const { Users,AuthToken } = require('../../database/schema/index');
 
 const token = require('./../../services/auth/token');
 
+
 exports.register = async  (data, cb) =>
 {
-    let error = null;
     Users.findOne({
         where: {
-            email: data.data.email
+            name: data.name
         }
     }).then(user => {
         if (!user)
         {
-            bcrypt.hash(data.data.password, 10, (err, hash) => {
+            bcrypt.hash(data.password, 10, (err, hash) => {
                 Users.create({
-                    email: data.data.email,
+                    name: data.name,
                     password: hash,
                 })
                 .then(user => {
-                    cb(error, user)
+                    cb(user)
                 })
-                .catch(err => {
-                    error = err
+                .catch(error => {
+                    cb(null, error)
                 })
             })
         }
         else{
-            error = 'Пользователь уже существует ';
-            cb(error, user)
+            cb(null, 'Пользователь уже существует ');
         }
     });
 };
 
-exports.login = async  (data, cb) =>
+exports.login = async  (data, res, cb) =>
 {
-    let error = null;
     Users.findOne({
         where: {
-            email: data.data.email
+            name: data.name
         }
     }).then(user =>
     {
         if (user)
         {
-            if (bcrypt.compareSync(data.data.password, user.password))
+            if (bcrypt.compareSync(data.password, user.password))
             {
-                cb( null, {
+                const authToken = token.generate(user.id);
+                // res.cookie('token', '228', {})
+
+                // res.cookie('token', authToken, {
+                // maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+                //     httpOnly: true, // The cookie only accessible by the web server
+                // signed: true // Indicates if the cookie should be signed
+                // });
+                cb({
                     user: user,
-                    token: token.generate(user.id)
-                } )
+                    token: authToken
+                })
             }
             else{
-                cb('Неверный пароль', user)
+                cb(null, 'Неверный пароль');
             }
         }
         else{
-            cb('Пользователь не найден', user)
+            cb(null, 'Пользователь не найден');
         }
     })
 };
 
 
-exports.logout =  (token, cb) =>
+exports.logout =  (data, cb) =>
 {
-    let error = null;
-
     const destroy = AuthToken.destroy({
         where: {
-            token: token
+            token: data.token
         }
     });
     if ( destroy ){
-        cb(error, destroy)
+        cb(destroy)
     } else{
-        cb('Error destroy', destroy)
+        cb(null, 'Error destroy')
     }
 
 };
-
-
-// Users.authorize = (userId) =>
-// {
-//     return AuthToken.generate(userId);
-// };

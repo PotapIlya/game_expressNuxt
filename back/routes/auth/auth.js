@@ -3,14 +3,13 @@ const app = express();
 const authController = require('../../controllers/auth/authController');
 
 
-/*
-    create user
- */
+
 app.post('/auth/register', authController.register );
 app.post('/auth/login', authController.login );
 
-// app.get('/auth/logout/:token', authController.logout );
 
+app.post('/auth/logout', authController.logout );
+app.post('/auth/checkAuth', authController.checkAuth );
 
 
 module.exports = app;

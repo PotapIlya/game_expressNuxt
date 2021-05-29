@@ -9,7 +9,7 @@ module.exports = {
         'dialect' : 'mysql',
     },
     'postgres' : {
-        'database' : 'postgres',
+        'database' : 'game',
         'username' : 'postgres',
         'password' : '',
         'host' : 'localhost' ,

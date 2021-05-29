@@ -1,14 +1,17 @@
 <template>
     <div>
         <h1>
-            Main page
+            Game
         </h1>
     </div>
 </template>
 
 <script>
+
     export default {
-        name: "Index",
+        name: "index",
+        layout: 'game',
         middleware: ['auth'],
+
     }
 </script>

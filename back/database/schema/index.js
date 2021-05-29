@@ -4,46 +4,6 @@ const connect = require('../../core/connectDatabase');
 
 module.exports = {
 
-    Team: connect.sequelize.define('Team', {
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: Sequelize.DataTypes.INTEGER
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    }, {
-        timestamps: true
-    }),
-
-
-    Person: connect.sequelize.define('Person', {
-        id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: Sequelize.DataTypes.INTEGER
-        },
-        TeamId: {
-            type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
-        },
-        steam_id: {
-            type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    }, {
-        timestamps: true
-    }),
-
-
     Users: connect.sequelize.define('Users', {
         id: {
             allowNull: false,
@@ -51,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.DataTypes.INTEGER
         },
-        email: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
