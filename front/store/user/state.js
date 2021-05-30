@@ -1,7 +1,7 @@
 export default
 {
     user: {},
-    token: '',
+    token: 'CypDboBbQHo3jcT',
 
 
     messages: [],

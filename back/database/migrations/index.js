@@ -1,10 +1,12 @@
 const connect  = require('../../core/connectDatabase');
-const {  Users, AuthToken } = require('../schema/index');
+const {  Users, AuthToken, Rooms } = require('../schema/index');
 
 
 console.log('START MIGRATIONS');
 
 AuthToken.belongsTo(Users);
+
+Rooms.hasOne(Users);
 
 
 

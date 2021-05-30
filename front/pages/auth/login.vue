@@ -39,7 +39,7 @@
                         if (res.data)
                         {
                             this.setUser(res.data);
-                            this.$router.push("/game");
+                            this.$router.push("/rooms");
                         }
                     })
                     .catch(error => {

@@ -1,10 +1,12 @@
 <template>
     <v-app>
+
+        <!--     NAVBAR USERS   -->
         <v-navigation-drawer app v-model="drawer" mobile-break-point="650">
             <v-list subheader>
                 <v-subheader>Users in room</v-subheader>
 
-                <v-list-item v-for="(u, index) in users" :key="`user-${index}`" @click.prevent>
+                <v-list-item v-for="(u, index) in getArrayUsersRoom" :key="`user-${index}`" @click.prevent>
                     <v-list-item-content>
                         <v-list-item-title v-text="u.name"></v-list-item-title>
                     </v-list-item-content>
@@ -15,6 +17,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
+        <!--  END NAVBAR USERS   -->
 
         <v-app-bar app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -43,28 +46,33 @@
     export default {
         middleware: "auth",
         data: () => ({
-            drawer: true,
+            drawer: false,
 
             logoutUrl: 'http://localhost:3001/auth/logout',
         }),
         sockets: {
-            updateUsers(users) {
-                this.updateUsers(users);
+            updateArrayUsersRoom(data){
+                this.updateArrayUsersRoom(data);
             },
-            newMessage(msg) {
-                this.newMessage(msg);
-            },
+            // updateUsers(users) {
+            //     this.updateUsers(users);
+            // },
+            // newMessage(msg) {
+            //     this.newMessage(msg);
+            // },
         },
         computed:{
             ...mapState(["user", "users"]),
-            ...mapGetters('user', ['getUser', 'getToken'])
+            ...mapGetters('user', ['getUser', 'getToken']),
+            ...mapGetters('room', ['getRoomId', 'getArrayUsersRoom'])
         },
         mounted() {
-            console.log(this.getToken)
+
         },
         methods: {
             ...mapMutations(["clearData", "updateUsers", "newMessage"]),
             ...mapMutations('user', ["deleteUser"]),
+            ...mapMutations('room', ["updateArrayUsersRoom"]),
 
             die() {
                 this.$axios.post(this.logoutUrl, {
@@ -88,8 +96,12 @@
                 // });
             }
         },
-        created() {
-            // this.$socket.emit("joinRoom", this.user)
+        created()
+        {
+            this.$socket.emit("joinRoom", {
+                user: this.getUser,
+                roomId: this.getRoomId,
+            })
         }
     };
 </script>

@@ -19,7 +19,6 @@ export default
     },
     updateUsers(state, users) {
         state.users = users;
-
     },
     clearData(state)
     {

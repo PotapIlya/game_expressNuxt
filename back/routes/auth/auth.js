@@ -9,7 +9,7 @@ app.post('/auth/login', authController.login );
 
 
 app.post('/auth/logout', authController.logout );
-app.post('/auth/checkAuth', authController.checkAuth );
+// app.post('/auth/checkAuth', authController.checkAuth );
 
 
 module.exports = app;

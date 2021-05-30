@@ -42,5 +42,24 @@ module.exports = {
         timestamps: true
     }),
 
+    Rooms: connect.sequelize.define('Rooms', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.DataTypes.INTEGER
+        },
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    }, {
+        timestamps: true
+    }),
+
 };
 
