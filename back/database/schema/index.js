@@ -1,10 +1,11 @@
 const { Sequelize, DataTypes, Model }  = require('sequelize');
 const connect = require('../../core/connectDatabase');
 
+const sequelize = connect.sequelize;
 
 module.exports = {
 
-    Users: connect.sequelize.define('Users', {
+    User: connect.sequelize.define('User', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -20,7 +21,9 @@ module.exports = {
             allowNull: true,
         },
     }, {
-        timestamps: true
+        timestamps: true,
+        sequelize,
+        modelName: 'Users',
     }),
 
     AuthToken: connect.sequelize.define('AuthToken', {
@@ -42,7 +45,7 @@ module.exports = {
         timestamps: true
     }),
 
-    Rooms: connect.sequelize.define('Rooms', {
+    Room: connect.sequelize.define('Room', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -58,8 +61,27 @@ module.exports = {
             allowNull: false,
         },
     }, {
-        timestamps: true
+        timestamps: true,
+        sequelize,
+        modelName: 'Room',
     }),
+
+    UserRoom: connect.sequelize.define('UserRoom', {
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        RoomId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+
+    }, {
+        timestamps: true,
+        sequelize,
+        modelName: 'UserRoom',
+    }),
+
 
 };
 

@@ -4,7 +4,7 @@ const { AuthToken } = require('./../../database/schema/index');
 Изолировать, чтобы эта функция только токен генерировала
  */
 
-exports.generate = (userId) =>
+exports.generateToken = (userId) =>
 {
     if (!userId){
         return 'AuthToken requires a user ID';
@@ -31,3 +31,18 @@ exports.generate = (userId) =>
         return 'Error add database token';
     }
 };
+
+
+// exports.findUserIdByToken = (token, cb) =>
+// {
+//     AuthToken.findOne({
+//         where: { token : token}
+//     }).then( token => {
+//         if (token)
+//         {
+//             cb(token.UserId);
+//         } else{
+//             cb(null);
+//         }
+//     })
+// }

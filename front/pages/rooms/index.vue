@@ -43,8 +43,21 @@
             ...mapMutations('room', ['setRoomId']),
             joinRoom(roomId)
             {
-                this.setRoomId(roomId);
-                this.$router.push('/game')
+                this.$axios.post(this.url+'/join', {
+                    token: this.getToken,
+                    roomId: roomId,
+                })
+                .then(res => {
+                    if( res.data){
+                        this.setRoomId(roomId);
+                        this.$router.push('/game/'+roomId)
+                    }
+
+                })
+                .catch(error => {
+                    console.log('ERROR__'+error)
+                })
+
             },
             save()
             {
@@ -70,14 +83,11 @@
         },
         created() {
             // вынести в store
-            this.$axios.get(this.url)
-            .then(res =>
-            {
+            this.$axios.get(this.url).then(res => {
                 if (res.data){
                     this.arrayRooms = res.data
                 }
-            })
-            .catch(error => {
+            }).catch(error => {
                 console.log('ERROR__' + error)
             })
         }

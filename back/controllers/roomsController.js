@@ -23,3 +23,25 @@ exports.store =  (req, res) =>
         res.json(data);
     })
 };
+exports.join =  (req, res) =>
+{
+    roomsModel.join(req.body, (data, error = null) =>
+    {
+        if (error) {
+            console.log(error, 'ERROR');
+            return res.status(500).send(error) ;
+        }
+        res.json(data);
+    })
+};
+exports.checkRoom =  (req, res) =>
+{
+    roomsModel.checkRoom(req.body, (data, error = null) =>
+    {
+        if (error) {
+            console.log(error, 'ERROR');
+            return res.status(500).send(error) ;
+        }
+        res.json(data);
+    })
+};

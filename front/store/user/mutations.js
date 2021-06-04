@@ -8,9 +8,9 @@ export default
     setToken(state, token){
         state.token = token;
     },
-    deleteUser(state)
+    deleteToken(state)
     {
-        state.user = {};
+        // state.user = {};
         state.token = '';
     },
     newMessage(state, text)

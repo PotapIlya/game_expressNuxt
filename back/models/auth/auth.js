@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const { Users,AuthToken } = require('../../database/schema/index');
 
-const token = require('./../../services/auth/token');
+const { generateToken } = require('./../../services/auth/token');
 
 
 exports.register = async  (data, cb) =>
@@ -46,7 +46,7 @@ exports.login = async  (data, res, cb) =>
         {
             if (bcrypt.compareSync(data.password, user.password))
             {
-                const authToken = token.generate(user.id);
+                const authToken = generateToken(user.id);
                 // res.cookie('token', '228', {})
 
                 // res.cookie('token', authToken, {

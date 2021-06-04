@@ -5,30 +5,31 @@ const cors = require('cors');
 app.use(cors());
 app.options('*', cors());
 
-app.use(express.json()); // post query
+app.use(express.json());
 
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 
-// app.get('/token', (req, res) =>
+// const { Room } = require('./database/schema/index')
+// const { belongToManyRoomUser } = require('./database/schema/connections')
+// app.get('/', async (req, res) =>
 // {
-//     res.cookie('token', '228')
-//     return res.json(req.cookies)
+//     await Room.findOne({
+//         id: 1,
+//         include: 'room_user'
+//     }).then( (room) => {
+//         res.json(room)
+//     })
 // })
-// app.get('/', (req, res) =>
-// {
-//     // res.cookie('token', '1234')
-//     return res.json(req.cookies)
-// })
+
 
 const router = require('./routes/index');
 app.use(router);
 
 
 // const app = require('express')();
-const server = require('http').createServer(app,
-    {
+const server = require('http').createServer(app, {
         cors: {
             origin: '*',
         }
@@ -68,25 +69,36 @@ io.on('connection', socket =>
     //     cb();
     // });
 
-    const x = [
-        {
-            id: 1,
-            name: 'Ilya',
-        },
-        {
-            id: 2,
-            name: 'Potap',
-        },
-    ]
 
-    socket.on("joinRoom", (data) =>
+
+    const { Room } = require('./database/schema/index')
+    socket.on("joinRoom", async (data) =>
     {
-        // const user = data.user;
-        // const room = data.roomId;
-
         socket.join(data.roomId);
-        io.to(data.roomId).emit('updateArrayUsersRoom', x);
+        io.to(data.roomId).emit('updateArrayUsersRoom', await Room.findOne({
+            id: data.roomId,
+            include: 'room_user'
+        }),
 
+     );
+
+        // AuthToken.findOne(
+        //     {
+        //         where: { token : data.token}
+        //     }
+        // ).then( async ( token) => {
+        //     if (token)
+        //     {
+        //         io.to(data.roomId).emit('updateArrayUsersRoom', await Rooms.findOne({
+        //             where: { id: data.roomId },
+        //             // include: Users
+        //         }) );
+        //
+        //     }
+        // })
+
+
+        // io.to(data.roomId).emit('updateArrayUsersRoom', userModel.getUsersByRoom(user.room));
         // io.to(data.roomId).emit('updateArrayUsersRoom', userModel.getUsersByRoom(user.room));
 
         // socket.emit('newMessage', new messageModel('admin', `Hello, ${user.name}`));
