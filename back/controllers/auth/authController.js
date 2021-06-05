@@ -32,12 +32,15 @@ exports.logout =  (req, res) =>
         res.json(data);
     });
 };
-exports.checkAuth = (req, res) =>
+exports.checkCookie = (req, res) =>
 {
-    // check session
-    res.json({
-        token: '1221'
-    } );
+    AuthModel.checkCookie(req.body, (data, error) => {
+        if (error) {
+            console.log(error, 'Error');
+            return res.status(500).send(error) ;
+        }
+        res.json(data);
+    });
 }
 
 

@@ -67,6 +67,12 @@ module.exports = {
     }),
 
     UserRoom: connect.sequelize.define('UserRoom', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.DataTypes.INTEGER
+        },
         UserId: {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
@@ -75,6 +81,37 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
         },
+
+    }, {
+        timestamps: true,
+        sequelize,
+        modelName: 'UserRoom',
+    }),
+
+
+    GameRoom: connect.sequelize.define('GameRoom', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.DataTypes.INTEGER
+        },
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        RoomId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        round: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        selectNumber: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        }
 
     }, {
         timestamps: true,

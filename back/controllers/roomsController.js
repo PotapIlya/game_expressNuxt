@@ -45,3 +45,14 @@ exports.checkRoom =  (req, res) =>
         res.json(data);
     })
 };
+exports.storeGameRoom =  (req, res) =>
+{
+    roomsModel.storeGameRoom(req.body, (data, error = null) =>
+    {
+        if (error) {
+            console.log(error, 'ERROR');
+            return res.status(500).send(error) ;
+        }
+        res.json(data);
+    })
+};

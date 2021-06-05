@@ -2,21 +2,21 @@
     <v-app>
 
         <!--     NAVBAR USERS   -->
-        <v-navigation-drawer app v-model="drawer" mobile-break-point="650">
-            <v-list subheader>
-                <v-subheader>Users in room</v-subheader>
+<!--        <v-navigation-drawer app v-model="drawer" mobile-break-point="650">-->
+<!--            <v-list subheader>-->
+<!--                <v-subheader>Users in room</v-subheader>-->
 
-                <v-list-item v-for="(u, index) in getArrayUsersRoom" :key="`user-${index}`" @click.prevent>
-                    <v-list-item-content>
-                        <v-list-item-title v-text="u.name"></v-list-item-title>
-                    </v-list-item-content>
+<!--                <v-list-item v-for="(u, index) in getArrayUsersRoom" :key="`user-${index}`" @click.prevent>-->
+<!--                    <v-list-item-content>-->
+<!--                        <v-list-item-title v-text="u.name"></v-list-item-title>-->
+<!--                    </v-list-item-content>-->
 
-<!--                    <v-list-item-icon>-->
-<!--                        <v-icon :color="u.id === user.id ? 'primary' : 'grey'">mdi-account-circle-outline</v-icon>-->
-<!--                    </v-list-item-icon>-->
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
+<!--&lt;!&ndash;                    <v-list-item-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <v-icon :color="u.id === user.id ? 'primary' : 'grey'">mdi-account-circle-outline</v-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </v-list-item-icon>&ndash;&gt;-->
+<!--                </v-list-item>-->
+<!--            </v-list>-->
+<!--        </v-navigation-drawer>-->
         <!--  END NAVBAR USERS   -->
 
         <v-app-bar app>
@@ -42,25 +42,24 @@
 
 <script>
     import { mapGetters, mapMutations } from "vuex";
-
     export default {
-        middleware: "auth",
+        middleware: ['auth'],
         data: () => ({
             drawer: false,
-
         }),
         sockets: {
             updateArrayUsersRoom(data){
-                // console.log(data, '!!!!!!!!!!!!!!!')
-                this.updateArrayUsersRoom(data);
+                this.updateArrayUsersRoom(data.room_user);
             },
-            // newMessage(msg) {
-            //     this.newMessage(msg);
-            // },
+            newMessage(data) {
+                if (data.length >= 2) {
+                    //
+                }
+            },
         },
         computed:{
             ...mapGetters('user', ['getToken']),
-            ...mapGetters('room', ['getArrayUsersRoom'])
+            ...mapGetters('room', ['getArrayUsersRoom','getSelectNumber'])
         },
         mounted() {
 
@@ -69,14 +68,14 @@
             ...mapMutations('user', ["deleteToken"]),
             ...mapMutations('room', ["updateArrayUsersRoom"]),
 
-            die()
-            {
+            die() {
                 this.$axios.post('http://localhost:3001/auth/logout', {
                     token: this.getToken,
                 })
                 .then(res => {
-                    if ( !Object.keys(res.data).length ){ // {}
+                    if ( !Object.keys(res.data).length ){ // {} удаление
                         this.deleteToken();
+                        this.$cookies.remove('token')
                         this.$router.push("auth/login");
                     } else{
                         console.log('ERROR')
@@ -90,11 +89,11 @@
         created()
         {
             /*
-            Проверка пользователя в комнате
+                Проверка пользователя в комнате
              */
             this.$socket.emit("joinRoom", {
                 token: this.getToken,
-                roomId: 1,
+                roomId: this.$cookies.get('room_id'),
             })
         }
     };

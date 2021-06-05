@@ -11,17 +11,19 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 
-// const { Room } = require('./database/schema/index')
-// const { belongToManyRoomUser } = require('./database/schema/connections')
-// app.get('/', async (req, res) =>
-// {
-//     await Room.findOne({
-//         id: 1,
-//         include: 'room_user'
-//     }).then( (room) => {
-//         res.json(room)
-//     })
-// })
+const { Room, UserRoom } = require('./database/schema/index')
+const { belongToManyRoomUser } = require('./database/schema/connections')
+app.get('/', async (req, res) =>
+{
+    await UserRoom.findAll({
+        where: {
+            RoomId: 1,
+            status: true,
+        }
+    }).then( allUserRoom => {
+        res.json(allUserRoom)
+    });
+})
 
 
 const router = require('./routes/index');
@@ -72,33 +74,19 @@ io.on('connection', socket =>
 
 
     const { Room } = require('./database/schema/index')
+    const { belongToManyRoomUser, belongToManyUserRoom } = require('./database/schema/connections');
+
     socket.on("joinRoom", async (data) =>
     {
         socket.join(data.roomId);
-        io.to(data.roomId).emit('updateArrayUsersRoom', await Room.findOne({
-            id: data.roomId,
+        io.to(data.roomId).emit('updateArrayUsersRoom', await Room.findByPk(data.roomId, {
             include: 'room_user'
         }),
+     )
 
-     );
-
-        // AuthToken.findOne(
-        //     {
-        //         where: { token : data.token}
-        //     }
-        // ).then( async ( token) => {
-        //     if (token)
-        //     {
-        //         io.to(data.roomId).emit('updateArrayUsersRoom', await Rooms.findOne({
-        //             where: { id: data.roomId },
-        //             // include: Users
-        //         }) );
-        //
-        //     }
-        // })
-
-
-        // io.to(data.roomId).emit('updateArrayUsersRoom', userModel.getUsersByRoom(user.room));
+        // io.to(data.roomId).emit('updateArrayUsersRoom', await Room.findByPk(data.roomId, {
+        //     include: 'room_user'
+        // }),;
         // io.to(data.roomId).emit('updateArrayUsersRoom', userModel.getUsersByRoom(user.room));
 
         // socket.emit('newMessage', new messageModel('admin', `Hello, ${user.name}`));
@@ -107,15 +95,28 @@ io.on('connection', socket =>
         //     .emit('newMessage', new messageModel('admin', `User ${user.name} connected to chat`));
     });
 
-    // socket.on('createMessage', (data, cb) =>
+    const { AuthToken, UserRoom, GameRoom } = require('./database/schema/index')
+    socket.on('createMessage', async (data, cb) =>
+    {
+        io.to(data.roomId).emit('newMessage', await GameRoom.findAll({
+            where: {
+                RoomId: data.roomId
+            }
+        }));
+        cb(true);
+    });
+
+    // socket.on('resGame', async (number) =>
     // {
-    //     const user = userModel.getUser(data.id);
-    //     if (user) {
-    //         io.to(user.room).emit('newMessage', new messageModel(user.name, data.text, data.id))
-    //     }
-    //     cb()
+    //     io.to(data.roomId).emit('newMessage', await UserRoom.findAll({
+    //         where: {
+    //             RoomId: data.roomId,
+    //             status: true,
+    //         }
+    //     }));
+    //     cb(true);
     // });
-    //
+
     // socket.on('disconnect', () =>
     // {
     //     const id = socket.id;

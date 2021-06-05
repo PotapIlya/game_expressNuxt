@@ -34,10 +34,13 @@
 
             arrayRooms: [],
             inputName: '',
-
         }),
         computed:{
             ...mapGetters('user', ['getToken'])
+        },
+        mounted()
+        {
+
         },
         methods: {
             ...mapMutations('room', ['setRoomId']),
@@ -48,11 +51,11 @@
                     roomId: roomId,
                 })
                 .then(res => {
-                    if( res.data){
+                    if( res.data.success ){
                         this.setRoomId(roomId);
+                        this.$cookies.set('room_id', roomId)
                         this.$router.push('/game/'+roomId)
                     }
-
                 })
                 .catch(error => {
                     console.log('ERROR__'+error)
@@ -64,6 +67,7 @@
                 // вынести в store
                 if (this.inputName !== '')
                 {
+                    console.log(this.getToken)
                     this.$axios.post(this.url+'/store', {
                         name: this.inputName,
                         token: this.getToken,

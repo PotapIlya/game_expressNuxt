@@ -27,24 +27,27 @@
             url: 'http://localhost:3001/auth/login'
         }),
         methods:{
-            ...mapMutations('user', ['setUser']),
+            ...mapMutations('user', ['setToken']),
             send()
             {
-                this.$axios.post(this.url, {
-                    name: this.inputName,
-                    password: this.inputPassword,
-                })
-                    .then(res => {
-                        // console.log(res.data)
-                        if (res.data)
-                        {
-                            this.setUser(res.data);
-                            this.$router.push("/rooms");
-                        }
+                if (this.inputName !== '' && this.inputPassword !== '')
+                {
+                    this.$axios.post(this.url, {
+                        name: this.inputName,
+                        password: this.inputPassword,
                     })
-                    .catch(error => {
-                        console.log('Error_' + error)
-                    })
+                        .then(res => {
+                            if (res.data.token)
+                            {
+                                this.setToken(res.data.token); // state
+                                this.$cookies.set('token', res.data.token)
+                                this.$router.push("/rooms");
+                            }
+                        })
+                        .catch(error => {
+                            console.log('Error_' + error)
+                        })
+                }
             }
         }
     }

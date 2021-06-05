@@ -39,19 +39,19 @@
                         name: this.inputName,
                         password: this.inputPassword,
                     })
-                        .then(res => {
-                            console.log(res.data)
-                            if (res.data)
-                            {
-                                this.status = true;
-                                setTimeout(() => {
-                                    this.status = false;
-                                }, 2000)
-                            }
-                        })
-                        .catch(error => {
-                            console.log('Error_' + error)
-                        })
+                    .then(res => {
+                        console.log(res.data)
+                        if (res.data)
+                        {
+                            this.status = true;
+                            setTimeout(() => {
+                                this.status = false;
+                            }, 2000)
+                        }
+                    })
+                    .catch(error => {
+                        console.log('Error_' + error)
+                    })
                 }
             }
         }

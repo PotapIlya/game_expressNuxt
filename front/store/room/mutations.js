@@ -7,7 +7,20 @@ export default
     updateArrayUsersRoom(state, array)
     {
         state.arrayUsersRoom = array;
-        // state.arrayUsersRoom = [...state.arrayUsersRoom, array];
     },
+
+    changeStatusLoadingRival(state)
+    {
+        state.statusLoadingRival = !state.statusLoadingRival;
+    },
+    changeStatusAnswerRival(state)
+    {
+        state.statusAnswerRival = !state.statusAnswerRival;
+    },
+
+
+    setSelectNumber(state, number){
+        state.selectNumber = number;
+    }
 
 }
