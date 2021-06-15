@@ -1,18 +1,8 @@
-const { Room, User, AuthToken } = require('./index')
+const { Users, AuthToken } = require('./index')
 
 module.exports = {
 
-    belongToManyRoomUser: Room.belongsToMany(User, {
-        through: 'UserRoom',
-        as: 'room_user'
-    }),
-    belongToManyUserRoom: User.belongsToMany(Room, {
-        through: 'UserRoom',
-        as: 'user_room'
-    }),
+    belongsToAuthTokenUser: AuthToken.belongsTo(Users),
 
-    hasOneUserRoom: User.hasOne(Room),
-
-    belongsToAuthTokenUser: AuthToken.belongsTo(User),
 
 }

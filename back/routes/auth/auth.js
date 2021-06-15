@@ -1,21 +1,21 @@
+// const Router = require('express').Router;
+// const router = new Router()
+
 const express = require('express');
-const app = express();
+const router = express();
 const authController = require('../../controllers/auth/authController');
 
 
+router.post('/auth/register', authController.register );
+router.post('/auth/login', authController.login );
+router.post('/auth/logout', authController.logout );
 
-app.post('/auth/register', authController.register );
-app.post('/auth/login', authController.login );
-
-
-app.post('/auth/logout', authController.logout );
-app.post('/auth/checkCookie', authController.checkCookie );
+router.post('/auth/refresh', authController.refresh );
 
 
-module.exports = app;
+router.get('/users', authController.getUsers );
 
 
 
-
-
+module.exports = router;
 

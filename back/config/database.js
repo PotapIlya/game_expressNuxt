@@ -9,23 +9,12 @@ module.exports = {
         'dialect' : 'mysql',
     },
     'postgres' : {
-        'database' : 'game',
-        'username' : 'postgres',
-        'password' : '',
-        'host' : 'localhost' ,
+        'database' : process.env.DB_DATABASE || 'root',
+        'username' : process.env.DB_USERNAME || 'root',
+        'password' : process.env.DB_PASSWORD || 'root',
+        'host' : process.env.DB_HOST || '127.0.0.1' ,
         'dialect' : 'postgres',
-        'port': 5432
+        'port': process.env.DB_PORT || 5432,
     }
 
 };
-
-// const config = {
-//     'postgres' : {
-//         'database' : 'postgres',
-//         'username' : 'postgres',
-//         'password' : 'postgres',
-//         'host' : 'localhost' ,
-//         'dialect' : 'postgres',
-//     }
-// };
-// module.exports = config;

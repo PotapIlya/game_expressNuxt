@@ -1,10 +1,8 @@
 
-const auth = require('./auth/auth');
-const rooms = require('./game/rooms')
+const auth = require('./auth/auth')
 
 module.exports =
 [
-    auth,
-    rooms
+    auth
 ];
 
