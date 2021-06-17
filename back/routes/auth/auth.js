@@ -4,9 +4,14 @@
 const express = require('express');
 const router = express();
 const authController = require('../../controllers/auth/authController');
+const { body } = require('express-validator')
 
+router.post('/auth/register',
 
-router.post('/auth/register', authController.register );
+    body('name').isLength({min: 4,  max: 10}),
+    body('password').isLength({min: 3,  max: 32}),
+
+    authController.register );
 router.post('/auth/login', authController.login );
 router.post('/auth/logout', authController.logout );
 

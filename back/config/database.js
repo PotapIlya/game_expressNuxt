@@ -9,12 +9,12 @@ module.exports = {
         'dialect' : 'mysql',
     },
     'postgres' : {
-        'database' : process.env.DB_DATABASE || 'root',
-        'username' : process.env.DB_USERNAME || 'root',
-        'password' : process.env.DB_PASSWORD || 'root',
-        'host' : process.env.DB_HOST || '127.0.0.1' ,
+        'database' : 'game',
+        'username' : 'postgres',
+        'password' : '',
+        'host' : 'localhost' ,
         'dialect' : 'postgres',
-        'port': process.env.DB_PORT || 5432,
+        'port': 5432
     }
 
 };

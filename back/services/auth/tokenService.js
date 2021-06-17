@@ -5,34 +5,48 @@ class TokenService
 {
     generateTokens(payload)
     {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
+        const accessToken = jwt.sign(payload, '3232', {expiresIn: '30m'})
+        const refreshToken = jwt.sign(payload , '1212', {expiresIn: '30d'})
 
         return {
             accessToken,
             refreshToken
-        }
+        };
+
     }
     async saveToken(userId, refreshToken)
     {
-        AuthToken.findOne({
-            where: {
-                token: refreshToken
-            }
+        const token = await AuthToken.findOne({ where: { token: refreshToken } });
+        if (token){
+            return await token.update({ token: refreshToken });
+        }
+        return await AuthToken.create({
+            UserId: userId,
+            token: refreshToken
         })
-            .then( async (token) => {
-                if (token){
-                    return await token.update({ token: refreshToken });
-                }
-                return await AuthToken.create({
-                    UserId: userId,
-                    token: refreshToken
-                })
+    }
 
-            })
-            .catch(error => {
-                throw new Error(error)
-            })
+    async removeToken(refreshToken){
+        return AuthToken.destroy({where: {token: refreshToken}});
+    }
+
+    validateAccessToken(token){
+        try{
+            return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+        } catch (e) {
+            return null
+        }
+    }
+    validateRefreshToken(token){
+        try{
+            return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+        } catch (e) {
+            return null
+        }
+    }
+
+    async findToken(refreshToken){
+        return await AuthToken.findOne({where: {token: refreshToken}});
     }
 }
 
