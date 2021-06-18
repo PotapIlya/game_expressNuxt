@@ -35,8 +35,8 @@
                         password: this.data.inputPassword,
                     }).then(response => {
                         if (response.data.accessToken) {
-                            this.$cookies.set('token', response.data.accessToken);
 
+                            this.$cookies.set('token', response.data.accessToken);
                             this.$axios.setHeader('Authorization', `Bearer ${this.$cookies.get('token')}`)
 
                             this.setAuth(true);
