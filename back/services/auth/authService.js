@@ -68,6 +68,10 @@ class AuthService
             user: userDto
         })
     }
+
+    async getUsers(){
+        return await Users.findAll();
+    }
 }
 
 module.exports = new AuthService();

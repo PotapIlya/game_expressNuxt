@@ -2,13 +2,12 @@
     <div>
         <h2>Login</h2>
         <label for="">
-            <input type="text" required v-model="inputName">
+            <input type="text" required v-model="data.inputName">
         </label>
         <label for="">
-            <input type="text" required v-model="inputPassword">
+            <input type="text" required v-model="data.inputPassword">
         </label>
         <button class="btn btn-success" @click="send">Send</button>
-
 
         <button @click="$router.push('/auth/register')" class="h2 btn btn-info">Register</button>
     </div>
@@ -18,37 +17,60 @@
     import { mapMutations } from 'vuex';
     export default {
         name: "login",
-        layout: "login",
-        middleware: ['guest'],
+        // middleware: ['guest'],
         data: () => ({
-            inputName: '',
-            inputPassword: '',
-
-            url: 'http://localhost:3001/auth/login'
+            data: {
+                inputName: 'tester',
+                inputPassword: 'testertester',
+            },
         }),
         methods:{
-            ...mapMutations('user', ['setToken']),
-            send()
+            ...mapMutations('user', ['setUser', 'setAuth']),
+            async send()
             {
-                if (this.inputName !== '' && this.inputPassword !== '')
+                if (this.data.inputName !== '' && this.data.inputPassword !== '')
                 {
-                    this.$axios.post(this.url, {
-                        name: this.inputName,
-                        password: this.inputPassword,
+                    const data = this.$axios.post('auth/login', {
+                        name: this.data.inputName,
+                        password: this.data.inputPassword,
+                    }).then(response => {
+                        if (response.data.accessToken) {
+                            this.$cookies.set('token', response.data.accessToken);
+
+                            this.$axios.setHeader('Authorization', `Bearer ${this.$cookies.get('token')}`)
+
+                            this.setAuth(true);
+                            this.setUser(response.data.user);
+                            console.log('Success...');
+                        } else{
+                            console.log('No accessToken')
+                        }
+                    }).catch(e => {
+                        console.log(
+                                e.response?.data?.message
+                            )
                     })
-                        .then(res => {
-                            if (res.data.token)
-                            {
-                                this.setToken(res.data.token); // state
-                                this.$cookies.set('token', res.data.token)
-                                this.$router.push("/rooms");
-                            }
-                        })
-                        .catch(error => {
-                            console.log('Error_' + error)
-                        })
+
+                    // try {
+                    //     const response  = await AuthService.login(this.data);
+                    //     console.log(response)
+                    //     if (response.data.accessToken) {
+                    //         this.$cookies.set('token', response.data.accessToken);
+                    //         this.setAuth(true);
+                    //         this.setUser(response.data.user);
+                    //         console.log('Success...');
+                    //     } else{
+                    //         console.log('No accessToken')
+                    //     }
+                    // } catch (e) {
+                    //     console.log('error')
+                    //     console.log(
+                    //         e.response?.data?.message
+                    //     )
+                    // }
+
                 }
-            }
+            },
         }
     }
 </script>

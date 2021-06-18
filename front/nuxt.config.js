@@ -29,7 +29,8 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/socket.client.js' }
+    // { src: '~/plugins/socket.client.js' }
+    { src: '~/plugins/axios.js' }
   ],
 
 
@@ -38,7 +39,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    '@nuxtjs/vuetify',
+    // '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -53,8 +54,16 @@ export default {
 
   ],
 
+
+  env: {
+    baseBackUrl: 'http://localhost:5000'
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+      withCredentials: true,
+      baseURL: 'http://localhost:5000' + '/api/',
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

@@ -1,10 +1,9 @@
 export default
 {
-    setToken(state, token){
-        state.token = token;
+    setUser(state, user){
+        state.user = user;
     },
-    deleteToken(state)
-    {
-        state.token = '';
+    setAuth(state, status){
+        state.isAuth = status;
     },
 }

@@ -58,25 +58,23 @@
             },
         },
         computed:{
-            ...mapGetters('user', ['getToken']),
             ...mapGetters('room', ['getArrayUsersRoom','getSelectNumber'])
         },
         mounted() {
 
         },
         methods: {
-            ...mapMutations('user', ["deleteToken"]),
+            ...mapMutations('user', ["setUser", 'setAuth']),
             ...mapMutations('room', ["updateArrayUsersRoom"]),
 
             die() {
-                this.$axios.post('http://localhost:3001/auth/logout', {
-                    token: this.getToken,
-                })
+                this.$axios.post('auth/logout')
                 .then(res => {
-                    if ( !Object.keys(res.data).length ){ // {} удаление
-                        this.deleteToken();
+                    if ( res.data ){ // {} удаление
+                        this.setUser({});
+                        this.setAuth(false);
                         this.$cookies.remove('token')
-                        this.$router.push("auth/login");
+                        // this.$router.push("auth/login");
                     } else{
                         console.log('ERROR')
                     }

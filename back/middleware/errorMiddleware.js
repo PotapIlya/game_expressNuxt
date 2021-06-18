@@ -2,7 +2,7 @@ const ApiError = require('./../exeptions/apiError')
 
 module.exports = (err, req, res, next) =>
 {
-    console.log(err, 'middleware');
+    // console.log(err, 'middleware');
     if (err instanceof ApiError){
         return res.status(err.status).json({
             message: err.message,

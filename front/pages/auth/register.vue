@@ -1,15 +1,15 @@
 <template>
     <div>
         <h2>Register</h2>
-        <h2 v-if="status">
+        <h2 v-if="statusAlert">
             Success
         </h2>
 
         <label for="">
-            <input type="text" required v-model="inputName">
+            <input type="text" required v-model="data.inputName">
         </label>
         <label for="">
-            <input type="text" required v-model="inputPassword">
+            <input type="text" required v-model="data.inputPassword">
         </label>
         <button class="btn btn-success" @click="send">Send</button>
 
@@ -22,35 +22,37 @@
     export default {
         name: "register",
         layout: "login",
-        middleware: ['guest'],
-        data: () => ({
-            inputName: '',
-            inputPassword: '',
 
-            url: 'http://localhost:3001/auth/register',
-            status: false,
+        data: () => ({
+            data: {
+                inputName: 'tester',
+                inputPassword: 'testertester1',
+            },
+            
+            statusAlert: false,
         }),
         methods:{
             send()
             {
-                if (this.inputName !== '' && this.inputPassword !== '')
+                if (this.data.inputName !== '' && this.data.inputPassword !== '')
                 {
-                    this.$axios.post(this.url, {
-                        name: this.inputName,
-                        password: this.inputPassword,
+                    this.$axios.post('auth/register', {
+                        name: this.data.inputName,
+                        password: this.data.inputPassword,
                     })
                     .then(res => {
                         console.log(res.data)
                         if (res.data)
                         {
-                            this.status = true;
+                            // refreshToken
+                            this.statusAlert = true;
                             setTimeout(() => {
-                                this.status = false;
+                                this.statusAlert = false;
                             }, 2000)
                         }
                     })
-                    .catch(error => {
-                        console.log('Error_' + error)
+                    .catch(e => {
+                        console.log( e.response?.data?.message)
                     })
                 }
             }

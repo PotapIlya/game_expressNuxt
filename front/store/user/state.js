@@ -1,4 +1,5 @@
 export default
 {
-    token: '',
+    user : {},
+    isAuth : false,
 }

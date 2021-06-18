@@ -36,6 +36,10 @@ class AuthController
                 httpOnly: true,
             })
 
+            // console.log(
+            //     req.cookies
+            // )
+
             return res.json(data);
 
         } catch (e) {
@@ -57,17 +61,26 @@ class AuthController
     async refresh(req, res, next){
         try {
             const { refreshToken } = req.cookies;
+            console.log(req.cookies)
             const data = await authService.refresh(refreshToken);
             res.cookie('refreshToken', data.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
             })
+            return res.json(data);
+
         } catch (e) {
             next(e);
         }
     }
     async getUsers(req, res, next){
-        res.json(['1221'])
+        try {
+            const users = await authService.getUsers();
+            return res.json(users);
+
+        } catch (e) {
+            next(e);
+        }
     }
 
 }

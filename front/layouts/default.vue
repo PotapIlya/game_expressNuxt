@@ -1,35 +1,66 @@
 <template>
-    <div>
+    <div class="mainWrapper">
+
+        <h2 v-if="getUser.id">{{ getUser.name }}</h2>
+        <h2 v-else>Авторизуйтесь...</h2>
         <Nuxt />
+
+        <button @click="getUsers">Get Users</button>
+
+        <ul v-if="users.length">
+            <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+        </ul>
+
     </div>
 </template>
-
-
 <script>
-    import { mapGetters, mapMutations } from 'vuex'
+    import { mapMutations, mapGetters } from 'vuex';
     export default {
-        computed:{
-            ...mapGetters('user', ['getToken'])
+
+        data: () => ({
+            users: [],
+        }),
+        computed: {
+            ...mapGetters('user', ['getUser'])
         },
-        // created() {
-        //     if (!this.getToken.length)
-        //     {
-        //         this.$axios.post('http://localhost:3001/auth/checkAuth', {
-        //             token: 'token'
-        //         })
-        //             .then(res => {
-        //                 if (res.data.token){
-        //                     this.setToken(res.data.token)
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 console.log('ERROR__'+error)
-        //             })
-        //     }
-        //
-        // },
-        methods:{
-            ...mapMutations('user', ['setToken'])
+        methods: {
+            ...mapMutations('user', ['setUser', 'setAuth']),
+            async getUsers()
+            {
+                this.$axios.get('auth/users')
+                    .then(res => {
+                        this.users = res.data;
+                    })
+                    .catch(e => {
+                        console.log(
+                            e.response?.data?.message
+                        )
+                    })
+            }
+        },
+        async mounted() {
+
+            this.$axios.post('auth/refresh')
+                .then(response => {
+                    if (response.data.accessToken) {
+                        this.$cookies.set('token', response.data.accessToken);
+                        this.setAuth(true);
+                        this.setUser(response.data.user);
+                        console.log('Success...');
+                    } else{
+                        console.log('No accessToken')
+                    }
+                })
+                .catch(e =>{
+                    console.log(
+                        e.response?.data?.message
+                    )
+                }) //.finally()
+            // try{}
+            // catch (e) {}
+            // finally {}
+
         }
+
     }
 </script>
