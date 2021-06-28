@@ -61,7 +61,6 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-      withCredentials: true,
       baseURL: 'http://localhost:5000' + '/api/',
   },
 
