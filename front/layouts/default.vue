@@ -40,24 +40,23 @@ export default {
         }
     },
     async mounted() {
-
-        this.$axios.post('auth/refresh')
-            .then(response => {
-                console.log(response)
-                if (response.data.accessToken) {
-                    this.$cookies.set('token', response.data.accessToken);
-                    this.setAuth(true);
-                    this.setUser(response.data.user);
-                    console.log('Success...');
-                } else{
-                    console.log('No accessToken')
-                }
-            })
-            .catch(e =>{
-                console.log(
-                    e.response?.data?.message
-                )
-            }) //.finally()
+        console.log(12)
+        try {
+            const response =  this.$axios.post('auth/refresh', { withCredentials: true })
+            if (response.data.accessToken) {
+                this.$cookies.set('token', response.data.accessToken);
+                this.setAuth(true);
+                this.setUser(response.data.user);
+                console.log('Success...');
+            } else{
+                console.log('No accessToken')
+            }
+        } catch (e) {
+            console.log(
+                e.response?.data?.message
+            )
+        }
+        //.finally()
         // try{}
         // catch (e) {}
         // finally {}

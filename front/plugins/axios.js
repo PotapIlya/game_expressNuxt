@@ -2,10 +2,10 @@ export default ({ $cookies, $axios, redirect }) =>
 {
     $axios.setHeader('Authorization', `Bearer ${$cookies.get('token')}`)
 
-    $axios.onRequest(config => {
-        config.withCredentials = true;
-        return config;
-    })
+    // $axios.onRequest(config => {
+    //     config.withCredentials = true;
+    //     return config;
+    // })
     // $axios.onError( async (error) => {
     //     const originalRequest = error.config;
     //     if(error.response.status === 401 && error.config && !error.config._isRetry ) {
