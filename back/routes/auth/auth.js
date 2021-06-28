@@ -20,8 +20,8 @@ router.post('/auth/logout', authController.logout );
 router.post('/auth/refresh', authController.refresh );
 
 
-// router.get('/auth/users', authController.getUsers );
-router.get('/auth/users', authMiddleware, authController.getUsers );
+router.get('/auth/users', authController.getUsers );
+// router.get('/auth/users', authMiddleware, authController.getUsers );
 
 
 

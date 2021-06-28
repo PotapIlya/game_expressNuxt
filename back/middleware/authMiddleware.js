@@ -5,8 +5,6 @@ module.exports = async (req, res, next) =>
 {
     try {
 
-        // $axios.setHeader('Authorization', `Bearer ${$cookies.get('token')}`) => так доклеиваю на фронте
-
         const authHeader = req.headers.authorization;
         if (!authHeader){
             return next( ApiError.unauthorizedError() );
@@ -18,6 +16,7 @@ module.exports = async (req, res, next) =>
         }
 
         const userData = await tokenService.validateAccessToken(accessToken);
+        console.log(userData)
         if (!userData){
             return next( ApiError.unauthorizedError() );
         }
