@@ -12,23 +12,20 @@
             <input type="text" required v-model="data.inputPassword">
         </label>
         <button class="btn btn-success" @click="send">Send</button>
-
-
-        <button @click="$router.push('/auth/login')" class="h2 btn btn-info">Login</button>
     </div>
 </template>
 
 <script>
     export default {
         name: "register",
-        layout: "login",
-
+        auth: false,
+        // layout: "login",
         data: () => ({
             data: {
                 inputName: 'tester',
-                inputPassword: 'testertester1',
+                inputPassword: 'testertester',
             },
-            
+
             statusAlert: false,
         }),
         methods:{

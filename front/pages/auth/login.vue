@@ -9,7 +9,6 @@
         </label>
         <button class="btn btn-success" @click="send">Send</button>
 
-        <button @click="$router.push('/auth/register')" class="h2 btn btn-info">Register</button>
     </div>
 </template>
 
@@ -17,6 +16,8 @@
     import { mapMutations } from 'vuex';
     export default {
         name: "login",
+        auth: false,
+        // layout: "login",
         // middleware: ['guest'],
         data: () => ({
             data: {
@@ -25,7 +26,7 @@
             },
         }),
         methods:{
-            ...mapMutations('user', ['setUser', 'setAuth']),
+            ...mapMutations('user', ['SET_USER', 'SET_AUTH']),
             async send()
             {
                 if (this.data.inputName !== '' && this.data.inputPassword !== '')
@@ -37,11 +38,11 @@
                         if (response.data.accessToken) {
 
                             this.$cookies.set('token', response.data.accessToken);
-                            this.$axios.setHeader('Authorization', `Bearer ${this.$cookies.get('token')}`)
+                            // this.$axios.setHeader('Authorization', `Bearer ${this.$cookies.get('token')}`)
 
-                            this.setAuth(true);
-                            this.setUser(response.data.user);
-                            console.log('Success...');
+                            this.SET_AUTH(true);
+                            this.SET_USER(response.data.user);
+                            this.$router.push('/');
                         } else{
                             console.log('No accessToken')
                         }
@@ -50,25 +51,6 @@
                                 e.response?.data?.message
                             )
                     })
-
-                    // try {
-                    //     const response  = await AuthService.login(this.data);
-                    //     console.log(response)
-                    //     if (response.data.accessToken) {
-                    //         this.$cookies.set('token', response.data.accessToken);
-                    //         this.setAuth(true);
-                    //         this.setUser(response.data.user);
-                    //         console.log('Success...');
-                    //     } else{
-                    //         console.log('No accessToken')
-                    //     }
-                    // } catch (e) {
-                    //     console.log('error')
-                    //     console.log(
-                    //         e.response?.data?.message
-                    //     )
-                    // }
-
                 }
             },
         }

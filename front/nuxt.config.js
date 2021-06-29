@@ -23,10 +23,6 @@ export default {
       '@/assets/scss/app.scss'
   ],
 
-    // router: {
-    //     middleware: ['auth']
-    // },
-
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // { src: '~/plugins/socket.client.js' }
@@ -53,7 +49,9 @@ export default {
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
 
   ],
-
+    router: {
+        middleware: ['auth']
+    },
 
   env: {
     baseBackUrl: 'http://localhost:5000'
@@ -61,7 +59,6 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-      withCredentials: true,
       baseURL: 'http://localhost:5000' + '/api/',
   },
 

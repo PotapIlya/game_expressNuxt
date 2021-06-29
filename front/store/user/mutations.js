@@ -1,9 +1,9 @@
 export default
 {
-    setUser(state, user){
+    SET_USER(state, user){
         state.user = user;
     },
-    setAuth(state, status){
+    SET_AUTH(state, status){
         state.isAuth = status;
     },
 }

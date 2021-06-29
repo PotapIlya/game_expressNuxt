@@ -1,11 +1,14 @@
 const connect  = require('../../core/connectDatabase');
-const {  Users }= require('../schema/index');
+const {  Users, UserRoom, Room, AuthToken }= require('../schema/index');
 
 
 console.log('START MIGRATIONS');
 
 const {
-    belongsToAuthTokenUser
+    belongsToAuthTokenUser,
+    belongToManyUserRoom,
+    belongToManyRoomUser,
+
 } = require('../schema/connections')
 
 connect.sequelize.sync({force:true}).then(()=>
@@ -16,8 +19,3 @@ connect.sequelize.sync({force:true}).then(()=>
 .catch(err=>{
     console.log(err)
 });
-
-
-
-
-

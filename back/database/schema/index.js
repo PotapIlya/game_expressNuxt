@@ -46,6 +46,49 @@ module.exports = {
     }),
 
 
+    Room: connect.sequelize.define('Room', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.DataTypes.INTEGER
+        },
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    }, {
+        timestamps: true,
+        sequelize,
+        modelName: 'Room',
+    }),
+
+    UserRoom: connect.sequelize.define('UserRoom', {
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.DataTypes.INTEGER
+        },
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+        RoomId: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
+    }, {
+        timestamps: true,
+        sequelize,
+        modelName: 'UserRoom',
+    }),
+
+
 
 };
 
