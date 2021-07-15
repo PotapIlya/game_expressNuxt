@@ -6,8 +6,11 @@ const authMiddleware = require('./../middleware/authMiddleware');
 
 const roomsController = require('./../controllers/roomController')
 
-router.post('/rooms/create', authMiddleware, roomsController.create );
 router.get('/rooms/all', roomsController.all );
+// router.get('/rooms/all', authMiddleware, roomsController.all );
+// router.post('/rooms/create', authMiddleware, roomsController.create );
+// router.post('/rooms/join', authMiddleware, roomsController.join );
+
 
 
 

@@ -1,17 +1,16 @@
 <template>
-    <nuxt />
+  <div>
+    <Header />
+    <Nuxt />
+  </div>
 </template>
 
 <script>
-    import { mapMutations, mapGetters, mapActions } from 'vuex';
-    export default {
-        name: 'login',
-        layout: "login",
-        methods: {
-            ...mapMutations('user', ['setUser', 'setAuth']),
-        },
-        async mounted() {
-
-        }
-    }
+import Header from '../components/basic/Header'
+export default {
+  name: 'login',
+  components: {
+    Header
+  }
+}
 </script>

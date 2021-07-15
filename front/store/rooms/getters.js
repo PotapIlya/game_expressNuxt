@@ -1,6 +1,6 @@
 export default
 {
-    getRooms: (state) => state.rooms,
+  STORE_GET_ROOMS: (state) => state.rooms,
 
 
 }

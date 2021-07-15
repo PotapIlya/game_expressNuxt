@@ -10,8 +10,8 @@ class RoomsController
         try {
 
             const data = await roomsService.all();
-
             return res.json(data);
+
         } catch (e) {
             next(e);
         }
@@ -21,6 +21,18 @@ class RoomsController
             const { name } = req.body;
             const { refreshToken } = req.cookies;
             const data = await roomsService.create(name, refreshToken);
+
+            return res.json(data);
+
+        } catch (e) {
+            next(e);
+        }
+    }
+    async join(req, res, next) {
+        try {
+            const { roomId } = req.body;
+            const { refreshToken } = req.cookies;
+            const data = await roomsService.join(roomId, refreshToken);
 
             return res.json(data);
 

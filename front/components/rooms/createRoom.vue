@@ -28,6 +28,7 @@
                         console.log(res)
                         if (res.data){
                             this.addRooms(res.data)
+                            this.$router.push('/game/'+res.data.id)
                         }
                     })
                     .catch(e => {

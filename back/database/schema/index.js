@@ -82,6 +82,10 @@ module.exports = {
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
         },
+        status: {
+            type: Sequelize.DataTypes.BOOLEAN,
+            allowNull: false,
+        },
     }, {
         timestamps: true,
         sequelize,

@@ -1,30 +1,20 @@
-import axios from '../../plugins/axios'
-import cookie from 'cookie-universal-nuxt'
+// import axios from '../../plugins/axios'
+// import cookie from 'cookie-universal-nuxt'
 
 export default
 {
-    async AXIOS_CHECK_AUTH ({  commit  }) {
-        // try {
-        //     const response = await axios.post('auth/refresh')
-        //     console.log(response, 11)
-        //     if (response.data.accessToken)
-        //     {
-        //         cookie.set('token', response.data.accessToken);
-        //         commit('setAuth', true);
-        //         commit('setUser', response.data.user);
-        //         console.log('Success accessToken...');
-        //     } else{
-        //         console.log('No accessToken')
-        //     }
-        // } catch (e) {
-        //     console.log(
-        //         e.response?.data?.message
-        //     )
-        // }
-        //.finally()
-        // try{}
-        // catch (e) {}
-        // finally {}
+    async logout ({ commit, redirect }, cookie) {
+      try{
 
+        const res = await this.$axios.$post('auth/logout');
+
+          commit('SET_USER', {} );
+          commit('SET_AUTH', false );
+          cookie.remove('token')
+          redirect("auth/login");
+
+      } catch (e) {
+        console.log(e.response)
+      }
     }
 }

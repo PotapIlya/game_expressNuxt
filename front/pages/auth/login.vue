@@ -16,9 +16,7 @@
     import { mapMutations } from 'vuex';
     export default {
         name: "login",
-        auth: false,
-        // layout: "login",
-        // middleware: ['guest'],
+        layout: "login",
         data: () => ({
             data: {
                 inputName: 'tester',

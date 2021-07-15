@@ -3,7 +3,7 @@
         <span @click="$router.push('/')" class="navbar-brand">Main</span>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <ul class="navbar-nav mr-auto">
+            <ul v-if="GET_IS_AUTH" class="navbar-nav mr-auto">
 
                 <li class="nav-item"><span @click="$router.push('/rooms')" class="nav-link">Rooms</span></li>
 
@@ -41,7 +41,6 @@ import { mapGetters, mapMutations } from 'vuex';
 export default {
     name: 'Header',
     data: () => ({
-
     }),
     computed: {
         ...mapGetters('user', ['GET_USER', 'GET_IS_AUTH'])
@@ -49,17 +48,7 @@ export default {
     methods: {
         ...mapMutations('user', ['SET_USER', 'SET_AUTH']),
         async logout(){
-            try{
-                const res = await this.$axios.post('auth/logout');
-                if ( res.data ){
-                    this.SET_USER({});
-                    this.SET_AUTH(false);
-                    this.$cookies.remove('token')
-                    await this.$router.push("auth/login");
-                }
-            } catch (e) {
-                console.log( e.response?.data?.message)
-            }
+          await this.$store.dispatch('user/logout', this.$cookies)
         }
     }
 }

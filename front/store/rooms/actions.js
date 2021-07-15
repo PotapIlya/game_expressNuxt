@@ -3,14 +3,13 @@ import axios from 'axios'
 
 export default
 {
-    async AXIOS_GET_ROOMS ({  commit  }, axios) {
+    async fetchRooms ({ commit }) {
         try {
-           const res =  await axios.get('rooms/all');
-            console.log(res.data)
-            commit('addRooms', res.data);
+           const res = await this.$axios.$get('rooms/all');
+           commit('addRooms', res);
 
         } catch (e) {
-            console.log(e.response?.data?.message)
+            console.log(e.response)
         }
     },
     async AXIOS_CREATE_ROOM ({  commit  }, data) {

@@ -25,7 +25,7 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // { src: '~/plugins/socket.client.js' }
+    // { src: '~/plugins/socket.client.js' },
     { src: '~/plugins/axios.js' }
   ],
 
@@ -49,9 +49,9 @@ export default {
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
 
   ],
-    router: {
-        middleware: ['auth']
-    },
+  // router: {
+  //     middleware: ['auth']
+  // },
 
   env: {
     baseBackUrl: 'http://localhost:5000'
@@ -64,5 +64,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  loading: {
+    color: 'blue',
+    height: '5px'
   }
 }

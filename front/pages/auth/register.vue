@@ -18,8 +18,7 @@
 <script>
     export default {
         name: "register",
-        auth: false,
-        // layout: "login",
+        layout: "login",
         data: () => ({
             data: {
                 inputName: 'tester',
